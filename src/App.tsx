@@ -12,7 +12,6 @@ const StyledContainer = styled("div")(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  back,
 }));
 
 const App: React.FC = () => {
