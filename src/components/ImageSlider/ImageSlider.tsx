@@ -1,18 +1,19 @@
-import { Box, styled } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import { Image } from './components/Image';
-import { wordList } from '../../assets/data/data';
-import { MultipleAnswers } from './components/MultipleAnswers/MultipleAnswers';
+import { Box, styled } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import { Image } from "./components/Image";
+import { wordList } from "../../assets/data/data";
+import { MultipleAnswers } from "./components/MultipleAnswers/MultipleAnswers";
+import { getRandomItemsFromArray } from "../../utils/utils";
 
 // Define styles and return the class names
 const StyledSwiperSlide = styled(SwiperSlide)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  width: '100%',
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "100%",
 }));
 
 const ImageSlider: React.FC = () => {
@@ -29,8 +30,10 @@ const ImageSlider: React.FC = () => {
     }
   }, [slideHasChanged]);
 
+  const randomList = getRandomItemsFromArray(wordList);
+
   return (
-    <Box sx={{ width: '100%', overflow: 'hidden' }}>
+    <Box sx={{ width: "100%", overflow: "hidden" }}>
       <Swiper
         spaceBetween={0}
         slidesPerView={1}
@@ -40,14 +43,11 @@ const ImageSlider: React.FC = () => {
           swiperInstance.current = swiper;
         }}
       >
-        {wordList.map((word, index) => {
+        {randomList.map((word, index) => {
           return (
             <StyledSwiperSlide key={index}>
               <Image word={word} />
-              <MultipleAnswers
-                correctAnswer={word}
-                onSuccessfulAnswer={handleSlideChange}
-              />
+              <MultipleAnswers correctAnswer={word} onSuccessfulAnswer={handleSlideChange} />
             </StyledSwiperSlide>
           );
         })}

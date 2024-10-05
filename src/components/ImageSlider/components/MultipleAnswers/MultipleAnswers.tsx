@@ -1,13 +1,7 @@
-import {
-  FormControlLabel,
-  keyframes,
-  Radio,
-  RadioGroup,
-  styled,
-} from '@mui/material';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Word, wordList } from '../../../../assets/data/data';
-import { GLOBAL_IMAGE_SRC } from '../../../../constants';
+import { FormControlLabel, keyframes, Radio, RadioGroup, styled } from "@mui/material";
+import React, { useEffect, useMemo, useState } from "react";
+import { Word, wordList } from "../../../../assets/data/data";
+import { GLOBAL_IMAGE_SRC } from "../../../../constants";
 import {
   CongratulationStyledImage,
   MultipleAnswersContainerStyled,
@@ -16,7 +10,8 @@ import {
   StyledSelectedOption,
   StyledSuccessSelectedOption,
   TryAgainStyledImage,
-} from './MultipleAnswers.styles';
+} from "./MultipleAnswers.styles";
+import { getRandomItemsFromArray } from "../../../../utils/utils";
 
 type MultipleAnswersProps = {
   correctAnswer: Word;
@@ -27,17 +22,17 @@ export const MultipleAnswers: React.FC<MultipleAnswersProps> = ({
   correctAnswer,
   onSuccessfulAnswer,
 }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState<string>(''); // Initialize to an empty string
+  const [selectedAnswer, setSelectedAnswer] = useState<string>(""); // Initialize to an empty string
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [hasAnswered, setHasAnswered] = useState<boolean>(false);
 
   const options = useMemo(() => {
-    const randomOptions = [...wordList]
-      .filter((item) => item.id !== correctAnswer.id)
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 4);
+    const randomOptions = getRandomItemsFromArray(
+      [...wordList].filter((item) => item.id !== correctAnswer.id),
+      4
+    );
 
-    return [...randomOptions, correctAnswer].sort(() => 0.5 - Math.random());
+    return getRandomItemsFromArray([...randomOptions, correctAnswer]);
   }, [wordList, correctAnswer]);
 
   const handleChange = (selectedValue: Word) => {
@@ -66,11 +61,11 @@ export const MultipleAnswers: React.FC<MultipleAnswersProps> = ({
       {!hasAnswered ? (
         <div
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
           }}
         >
           <h3>Choose the correct answer</h3>
@@ -85,17 +80,12 @@ export const MultipleAnswers: React.FC<MultipleAnswersProps> = ({
                   );
                 } else {
                   return (
-                    <StyledSelectedOption key={option.id}>
-                      {option.value}
-                    </StyledSelectedOption>
+                    <StyledSelectedOption key={option.id}>{option.value}</StyledSelectedOption>
                   );
                 }
               } else {
                 return (
-                  <StyledOption
-                    key={option.id}
-                    onClick={() => handleChange(option)}
-                  >
+                  <StyledOption key={option.id} onClick={() => handleChange(option)}>
                     {option.value}
                   </StyledOption>
                 );
@@ -108,12 +98,12 @@ export const MultipleAnswers: React.FC<MultipleAnswersProps> = ({
           {isCorrect ? (
             <CongratulationStyledImage
               src={`${GLOBAL_IMAGE_SRC}congratulate.webp`}
-              alt="Congratulations!"
+              alt='Congratulations!'
             />
           ) : (
             <TryAgainStyledImage
               src={`${GLOBAL_IMAGE_SRC}try-again.webp`}
-              alt="Try Again!"
+              alt='Try Again!'
               style={{ opacity: 1 }} // Always set opacity to 1
             />
           )}
