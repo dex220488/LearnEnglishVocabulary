@@ -1,39 +1,37 @@
-import { Box, styled } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Swiper } from "swiper/react";
 import "swiper/css";
-import { Image } from "./components/Image";
-import { wordList } from "../../assets/data/data";
+import { WordImage } from "./components/WordImage/WordImage";
+import { Word } from "../../assets/data/data";
 import { MultipleAnswers } from "./components/MultipleAnswers/MultipleAnswers";
-import { getRandomItemsFromArray } from "../../utils/utils";
+import { StyledSwiperSlide } from "./ImageSlider.styles";
 
-// Define styles and return the class names
-const StyledSwiperSlide = styled(SwiperSlide)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-  width: "100%",
-}));
+type ImageSliderProps = {
+  wordList: Word[];
+  onAnswered: (correctAnswer: Word, selectedWord: Word) => void;
+};
 
-const ImageSlider: React.FC = () => {
-  const [slideHasChanged, setSlideHasChanged] = useState(false);
+const ImageSlider: React.FC<ImageSliderProps> = ({ wordList, onAnswered }) => {
   const swiperInstance = useRef<any>(null);
-  const handleSlideChange = () => {
-    setSlideHasChanged(true);
+  const [hasAnswered, setHasAnswered] = useState<boolean>(false);
+
+  const handleOnAnswer = (correctAnswer: Word, selectedWord: Word) => {
+    setHasAnswered(true);
+    onAnswered(correctAnswer, selectedWord);
   };
 
   useEffect(() => {
-    if (slideHasChanged && swiperInstance.current) {
-      swiperInstance.current.slideNext(); // move to next slide
-      setSlideHasChanged(false); // reset the state after sliding
-    }
-  }, [slideHasChanged]);
+    if (hasAnswered) {
+      const timeout = setTimeout(() => {
+        swiperInstance.current.slideNext();
+      }, 2000);
 
-  const randomList = getRandomItemsFromArray(wordList);
+      return () => clearTimeout(timeout);
+    }
+  }, [hasAnswered]);
 
   return (
-    <Box sx={{ width: "100%", overflow: "hidden" }}>
+    <div style={{ width: "100%" }}>
       <Swiper
         spaceBetween={0}
         slidesPerView={1}
@@ -43,16 +41,14 @@ const ImageSlider: React.FC = () => {
           swiperInstance.current = swiper;
         }}
       >
-        {randomList.map((word, index) => {
-          return (
-            <StyledSwiperSlide key={index}>
-              <Image word={word} />
-              <MultipleAnswers correctAnswer={word} onSuccessfulAnswer={handleSlideChange} />
-            </StyledSwiperSlide>
-          );
-        })}
+        {wordList.map((word, index) => (
+          <StyledSwiperSlide key={index}>
+            <WordImage word={word} />
+            <MultipleAnswers correctAnswer={word} onAnswered={handleOnAnswer} />
+          </StyledSwiperSlide>
+        ))}
       </Swiper>
-    </Box>
+    </div>
   );
 };
 
