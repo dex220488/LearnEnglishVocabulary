@@ -71,6 +71,12 @@ const Game: React.FC = () => {
     return "00:00:00";
   }, [startTime, endTime]);
 
+  const handleRestart = () => {
+    setAnsweredWords([]);
+    setIsCorrect(undefined);
+    setHasAnswered(false);
+  };
+
   return (
     <Box sx={{ width: "100%", display: "flex", justifyItems: "center", alignContent: "center" }}>
       {hasAnswered && randomList.length > 0 && (
@@ -82,7 +88,12 @@ const Game: React.FC = () => {
       )}
 
       {!randomList.length && (
-        <Results score={score} durationTime={duration} answers={answeredWords} />
+        <Results
+          score={score}
+          durationTime={duration}
+          answers={answeredWords}
+          onRestart={handleRestart}
+        />
       )}
     </Box>
   );

@@ -8,6 +8,7 @@ import {
   StyledSuccessSelectedOption,
 } from "./MultipleAnswers.styles";
 import { getRandomItemsFromArray } from "../../../../utils/utils";
+import { Typography } from "@mui/material";
 
 type MultipleAnswersProps = {
   correctAnswer: Word;
@@ -61,14 +62,18 @@ export const MultipleAnswers: React.FC<MultipleAnswersProps> = ({ correctAnswer,
           width: "100%",
         }}
       >
-        <h3>Choose the correct answer</h3>
+        <Typography variant='h3' component='h3'>
+          Choose your answer:
+        </Typography>
         <MultipleAnswersStyledDiv>
           {options.map((option) => {
             if (selectedAnswer === option.value) {
               if (isCorrect) {
                 return (
                   <StyledSuccessSelectedOption key={option.id}>
-                    {option.value}
+                    <Typography variant='body1' component='body'>
+                      {option.value}
+                    </Typography>
                   </StyledSuccessSelectedOption>
                 );
               } else {
@@ -77,7 +82,9 @@ export const MultipleAnswers: React.FC<MultipleAnswersProps> = ({ correctAnswer,
             } else {
               return (
                 <StyledOption key={option.id} onClick={() => handleChange(option)}>
-                  {option.value}
+                  <Typography variant='body1' component='body'>
+                    {option.value}
+                  </Typography>
                 </StyledOption>
               );
             }

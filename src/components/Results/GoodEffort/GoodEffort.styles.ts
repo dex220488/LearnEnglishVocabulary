@@ -21,16 +21,3 @@ export const StyledImage = styled("img")(({ theme }) => ({
     "100%": { transform: "scale(1)", opacity: 1 },
   },
 }));
-
-export const Confetti = styled("div")({
-  position: "absolute",
-  width: "5px",
-  height: "10px",
-  backgroundColor: "red",
-  borderRadius: "2px",
-  animation: "fall 3s ease-out infinite",
-  "@keyframes fall": {
-    "0%": { transform: "translateY(0) rotate(0deg)", opacity: 1 },
-    "100%": { transform: "translateY(500px) rotate(360deg)", opacity: 0 },
-  },
-});

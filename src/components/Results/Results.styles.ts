@@ -3,6 +3,8 @@ import { styled } from "@mui/material";
 export const ImproveWordsContainer = styled("div")({
   display: "flex",
   flexWrap: "wrap",
+  justifyContent: "space-between",
+  alignItems: "center",
   width: "100%",
   gap: "5px",
 });
