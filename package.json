@@ -2,12 +2,15 @@
   "name": "englishgame",
   "version": "1.0.0",
   "main": "index.js",
+  "homepage": "https://dex220488.github.io/LearnEnglishVocabulary",
   "scripts": {
     "start": "webpack serve --config webpack.config.js",
     "build": "webpack --config webpack.config.js",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,scss,md}'",
     "lint": "eslint 'src/**/*.{ts,tsx,js,jsx}'",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "keywords": [],
   "author": "",
@@ -37,6 +40,7 @@
     "eslint": "^9.11.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "gh-pages": "^6.1.1",
     "html-webpack-plugin": "^5.6.0",
     "prettier": "^3.3.3",
     "style-loader": "^4.0.0",
