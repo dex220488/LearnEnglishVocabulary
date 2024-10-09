@@ -11,7 +11,6 @@ yarn-error.log*
 *.tsbuildinfo
 # Build directory
 build/
-dist/
 # Local environment variables
 .env
 .env.local
