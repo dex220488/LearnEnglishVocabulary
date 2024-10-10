@@ -1,6 +1,14 @@
-import { createTheme, styled, ThemeProvider, Typography } from "@mui/material";
-import React from "react";
-import { APP_NAME } from "./constants";
+import {
+  Box,
+  Checkbox,
+  createTheme,
+  FormControlLabel,
+  styled,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { APP_NAME, GROUP_ENUM } from "./constants";
 import Game from "./components/Game/Game";
 
 const theme = createTheme({
@@ -44,24 +52,135 @@ const StyledContainer = styled("div")(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "flex-start",
-  height: "100vh",
+  height: "100%",
   width: "100%",
   textAlign: "center",
 }));
 
-const App: React.FC = () => {
+export const StyledButton = styled("button")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: "1px solid black",
+  borderRadius: "5px",
+  padding: "10px",
+  width: "90%",
+  backgroundColor: "green",
+  color: "white",
+  "&:hover": {
+    cursor: "pointer",
+  },
+}));
+
+const App = () => {
+  const [startGame, setStartGame] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<GROUP_ENUM[]>([]);
+  const [isAllOption, setIsAllOption] = useState(false);
+
+  const handleOptionToggle = (category: GROUP_ENUM) => {
+    setSelectedCategories(
+      (prev) =>
+        prev.includes(category)
+          ? prev.filter((cat) => cat !== category) // Remove if already selected
+          : [...prev, category] // Add if not selected
+    );
+  };
+
+  const handleCheckAllOptions = () => {
+    const toggleValue = !isAllOption;
+
+    if (!toggleValue) {
+      setSelectedCategories([]);
+    } else {
+      setSelectedCategories(Object.values(GROUP_ENUM));
+    }
+
+    setIsAllOption(toggleValue);
+  };
+
+  const handleStart = () => {
+    if (!selectedCategories.length) {
+      return;
+    }
+
+    setStartGame(true);
+  };
+
+  const handleRestart = () => {
+    setSelectedCategories([]);
+    setIsAllOption(false);
+    setStartGame(false);
+  };
+
   return (
     <ThemeProvider theme={theme}>
-      <Typography
-        variant='h1'
-        component='h1'
-        style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      <div
+        style={{
+          height: "calc(100vh - 20px)",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
       >
-        {APP_NAME}
-      </Typography>
-      <StyledContainer>
-        <Game />
-      </StyledContainer>
+        <Typography
+          variant='h1'
+          component='h1'
+          style={{
+            display: "flex", // Flex for centering text if needed
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {APP_NAME}
+        </Typography>
+
+        {startGame ? (
+          <StyledContainer>
+            <Game selectedCategories={selectedCategories} onRestart={handleRestart} />
+          </StyledContainer>
+        ) : (
+          <StyledContainer>
+            <Box
+              display='flex'
+              flexDirection='column'
+              justifyContent='center'
+              alignItems='flex-start'
+            >
+              {Object.values(GROUP_ENUM).map((item) => (
+                <FormControlLabel
+                  key={item}
+                  control={
+                    <Checkbox
+                      checked={selectedCategories.includes(item)}
+                      onChange={() => handleOptionToggle(item)}
+                    />
+                  }
+                  label={
+                    <Typography variant='body1' component='p'>
+                      {item}
+                    </Typography>
+                  }
+                />
+              ))}
+              <FormControlLabel
+                key={"all"}
+                control={<Checkbox checked={isAllOption} onChange={handleCheckAllOptions} />}
+                label={
+                  <Typography variant='body1' component='p'>
+                    All
+                  </Typography>
+                }
+              />
+            </Box>
+
+            <StyledButton onClick={handleStart}>
+              <Typography variant='h4' component='h4'>
+                Start
+              </Typography>
+            </StyledButton>
+          </StyledContainer>
+        )}
+      </div>
     </ThemeProvider>
   );
 };

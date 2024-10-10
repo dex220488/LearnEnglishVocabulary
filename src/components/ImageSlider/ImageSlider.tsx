@@ -5,13 +5,15 @@ import { WordImage } from "./components/WordImage/WordImage";
 import { Word } from "../../assets/data/data";
 import { MultipleAnswers } from "./components/MultipleAnswers/MultipleAnswers";
 import { StyledSwiperSlide } from "./ImageSlider.styles";
+import { GROUP_ENUM } from "../../constants";
 
 type ImageSliderProps = {
+  selectedCategories: GROUP_ENUM[];
   wordList: Word[];
   onAnswered: (correctAnswer: Word, selectedWord: Word) => void;
 };
 
-const ImageSlider: React.FC<ImageSliderProps> = ({ wordList, onAnswered }) => {
+const ImageSlider: React.FC<ImageSliderProps> = ({ selectedCategories, wordList, onAnswered }) => {
   const swiperInstance = useRef<any>(null);
   const [hasAnswered, setHasAnswered] = useState<boolean>(false);
 
@@ -44,7 +46,11 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ wordList, onAnswered }) => {
         {wordList.map((word, index) => (
           <StyledSwiperSlide key={index}>
             <WordImage word={word} />
-            <MultipleAnswers correctAnswer={word} onAnswered={handleOnAnswer} />
+            <MultipleAnswers
+              selectedCategories={selectedCategories}
+              correctAnswer={word}
+              onAnswered={handleOnAnswer}
+            />
           </StyledSwiperSlide>
         ))}
       </Swiper>

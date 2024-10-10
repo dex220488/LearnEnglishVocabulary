@@ -9,20 +9,30 @@ import {
 } from "./MultipleAnswers.styles";
 import { getRandomItemsFromArray } from "../../../../utils/utils";
 import { Typography } from "@mui/material";
+import { GROUP_ENUM } from "../../../../constants";
 
 type MultipleAnswersProps = {
+  selectedCategories: GROUP_ENUM[];
   correctAnswer: Word;
   onAnswered: (correctAnswer: Word, answeredWord: Word) => void;
 };
 
-export const MultipleAnswers: React.FC<MultipleAnswersProps> = ({ correctAnswer, onAnswered }) => {
+export const MultipleAnswers: React.FC<MultipleAnswersProps> = ({
+  selectedCategories,
+  correctAnswer,
+  onAnswered,
+}) => {
   const [selectedAnswer, setSelectedAnswer] = useState<string>(""); // Initialize to an empty string
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [hasAnswered, setHasAnswered] = useState<boolean>(false);
 
   const options = useMemo(() => {
     const randomOptions = getRandomItemsFromArray(
-      [...wordList].filter((item) => item.id !== correctAnswer.id),
+      [...wordList].filter(
+        (item) =>
+          item.categories.some((cat) => selectedCategories.includes(cat)) &&
+          item.id !== correctAnswer.id
+      ),
       4
     );
 
@@ -36,20 +46,6 @@ export const MultipleAnswers: React.FC<MultipleAnswersProps> = ({ correctAnswer,
     setHasAnswered(true);
     onAnswered(correctAnswer, selectedValue);
   };
-
-  // useEffect(() => {
-  //   if (hasAnswered) {
-  //     const timeout = setTimeout(() => {
-  //       if (isCorrect) {
-  //         onSuccessfulAnswer(correctAnswer);
-  //       }
-  //       setIsCorrect(false);
-  //       setHasAnswered(false);
-  //     }, 2000);
-
-  //     return () => clearTimeout(timeout);
-  //   }
-  // }, [hasAnswered]);
 
   return (
     <MultipleAnswersContainerStyled>

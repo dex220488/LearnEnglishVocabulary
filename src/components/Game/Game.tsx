@@ -4,11 +4,16 @@ import { getRandomItemsFromArray } from "../../utils/utils";
 import { Box } from "@mui/material";
 import ResultImage from "../ImageSlider/components/AnswerImage/AnswerImage";
 import React from "react";
-import { STATUS_ENUM } from "../../constants";
+import { GROUP_ENUM, STATUS_ENUM } from "../../constants";
 import ImageSlider from "../ImageSlider/ImageSlider";
 import Results from "../Results/Results";
 
-const Game: React.FC = () => {
+type GameProps = {
+  selectedCategories: GROUP_ENUM[];
+  onRestart: () => void;
+};
+
+const Game: React.FC<GameProps> = ({ selectedCategories, onRestart }) => {
   const [answeredWords, setAnsweredWords] = useState<Word[]>([]);
   const [isCorrect, setIsCorrect] = useState<boolean>();
   const [hasAnswered, setHasAnswered] = useState<boolean>(false);
@@ -23,9 +28,13 @@ const Game: React.FC = () => {
 
   const randomList = useMemo(() => {
     const answeredIds = answeredWords.map((item) => item.id);
-    const filteredList: Word[] = wordList.filter((item) => !answeredIds.includes(item.id));
+    const filteredList: Word[] = wordList.filter(
+      (item) =>
+        item.categories.some((cat) => selectedCategories.includes(cat)) &&
+        !answeredIds.includes(item.id)
+    );
     return getRandomItemsFromArray(filteredList);
-  }, [answeredWords]);
+  }, [answeredWords, selectedCategories]);
 
   useEffect(() => {
     if (hasAnswered) {
@@ -75,19 +84,37 @@ const Game: React.FC = () => {
     setAnsweredWords([]);
     setIsCorrect(undefined);
     setHasAnswered(false);
+    onRestart();
   };
 
+  useEffect(() => {
+    if (!randomList.length && !answeredWords.length) {
+      onRestart();
+    }
+  }, []);
+
   return (
-    <Box sx={{ width: "100%", display: "flex", justifyItems: "center", alignContent: "center" }}>
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        justifyItems: "center",
+        alignContent: "center",
+      }}
+    >
       {hasAnswered && randomList.length > 0 && (
         <ResultImage status={isCorrect ? STATUS_ENUM.SUCCESS : STATUS_ENUM.FAILURE} />
       )}
 
       {!hasAnswered && randomList.length > 0 && (
-        <ImageSlider wordList={randomList} onAnswered={handleOnAnswer} />
+        <ImageSlider
+          selectedCategories={selectedCategories}
+          wordList={randomList}
+          onAnswered={handleOnAnswer}
+        />
       )}
 
-      {!randomList.length && (
+      {!randomList.length && answeredWords.length > 0 && (
         <Results
           score={score}
           durationTime={duration}
