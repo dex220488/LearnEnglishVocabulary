@@ -26,13 +26,15 @@ const Game: React.FC<GameProps> = ({ selectedCategories, onRestart }) => {
     setAnsweredWords((prev) => [...prev, { ...correctAnswer, wasCorrect: isSuccess }]);
   };
 
+  const wordsToPlay = useMemo(() => {
+    return wordList
+      .filter((item) => item.categories.some((cat) => selectedCategories.includes(cat)))
+      .slice(0, 10);
+  }, [wordList]);
+
   const randomList = useMemo(() => {
     const answeredIds = answeredWords.map((item) => item.id);
-    const filteredList: Word[] = wordList.filter(
-      (item) =>
-        item.categories.some((cat) => selectedCategories.includes(cat)) &&
-        !answeredIds.includes(item.id)
-    );
+    const filteredList: Word[] = wordsToPlay.filter((item) => !answeredIds.includes(item.id));
     return getRandomItemsFromArray(filteredList);
   }, [answeredWords, selectedCategories]);
 
