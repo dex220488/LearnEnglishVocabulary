@@ -10,7 +10,7 @@ import Results from "../Results/Results";
 
 type GameProps = {
   selectedCategories: GROUP_ENUM[];
-  wordLimit: number;
+  wordLimit: string;
   onRestart: () => void;
 };
 
@@ -30,7 +30,7 @@ const Game: React.FC<GameProps> = ({ selectedCategories, wordLimit, onRestart })
   const wordsToPlay = useMemo(() => {
     return wordList
       .filter((item) => item.categories.some((cat) => selectedCategories.includes(cat)))
-      .slice(0, wordLimit);
+      .slice(0, parseInt(wordLimit, 10));
   }, [wordList]);
 
   const randomList = useMemo(() => {

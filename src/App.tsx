@@ -77,7 +77,7 @@ const App = () => {
   const [startGame, setStartGame] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<GROUP_ENUM[]>([]);
   const [isAllOption, setIsAllOption] = useState(false);
-  const [wordLimit, setWordLimit] = useState(20);
+  const [wordLimit, setWordLimit] = useState("20");
 
   const handleOptionToggle = (category: GROUP_ENUM) => {
     setSelectedCategories(
@@ -115,13 +115,25 @@ const App = () => {
   };
 
   const handleWordLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = Number(event.target.value);
+    const inputValue = event.target.value;
+
+    // Allow the input to be empty
+    if (inputValue === "") {
+      setWordLimit("");
+      return;
+    }
+
+    const newValue = Number(inputValue);
+    console.log({ newValue });
+
+    // Validate that the new value is a number
     if (isNaN(newValue)) {
       return;
     }
 
-    const clampedValue = Math.max(1, Math.min(newValue, 99));
-    setWordLimit(clampedValue);
+    // Set minimum and maximum limits
+    const clampedValue = Math.max(1, Math.min(newValue, 50));
+    setWordLimit(clampedValue.toString());
   };
 
   return (
