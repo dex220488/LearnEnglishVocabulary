@@ -9,7 +9,7 @@ type ImageProps = {
 
 export const WordImage: React.FC<ImageProps> = ({ word }) => {
   const { id, value } = word;
-  const imageSrc = `${DATA_IMAGE_SRC}${value.toLowerCase()}.jpg`;
+  const imageSrc = `${DATA_IMAGE_SRC}${value.toLowerCase()}.jpeg`;
 
   return (
     <StyledImageContainer key={id}>
