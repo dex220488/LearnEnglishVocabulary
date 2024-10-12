@@ -28,9 +28,9 @@ const Game: React.FC<GameProps> = ({ selectedCategories, wordLimit, onRestart })
   };
 
   const wordsToPlay = useMemo(() => {
-    return wordList
-      .filter((item) => item.categories.some((cat) => selectedCategories.includes(cat)))
-      .slice(0, parseInt(wordLimit, 10));
+    return getRandomItemsFromArray(
+      wordList.filter((item) => item.categories.some((cat) => selectedCategories.includes(cat)))
+    ).slice(0, parseInt(wordLimit, 10));
   }, [wordList]);
 
   const randomList = useMemo(() => {
