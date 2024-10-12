@@ -116,9 +116,12 @@ const App = () => {
 
   const handleWordLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
-    if (newValue >= 1) {
-      setWordLimit(newValue);
+    if (isNaN(newValue)) {
+      return;
     }
+
+    const clampedValue = Math.max(1, Math.min(newValue, 99));
+    setWordLimit(clampedValue);
   };
 
   return (
@@ -193,7 +196,7 @@ const App = () => {
                     value={wordLimit}
                     type='number'
                     onChange={handleWordLimitChange}
-                    inputProps={{ min: 1 }}
+                    inputProps={{ min: 1, max: 99 }}
                     sx={{ marginLeft: 2 }}
                   />
                 }
