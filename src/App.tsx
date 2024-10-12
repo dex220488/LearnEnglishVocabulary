@@ -34,9 +34,15 @@ const theme = createTheme({
       lineHeight: 1.4,
     },
     h4: {
-      fontFamily: "'Kanit', sans-serif", // Font for h3
+      fontFamily: "'Kanit', sans-serif", // Font for h4
       fontWeight: 400,
       fontSize: "1.5rem",
+      lineHeight: 1.4,
+    },
+    h5: {
+      fontFamily: "'Kanit', sans-serif", // Font for h5
+      fontWeight: 450,
+      fontSize: "1.1rem",
       lineHeight: 1.4,
     },
     body1: {

@@ -11,20 +11,33 @@ export const StyledImage = styled("img")(({ theme }) => ({
 export const StyledImageContainer = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  gap: "6px",
+  gap: "10px",
   justifyContent: "center",
   alignItems: "center",
   width: "100%",
-  cursor: "pointer",
 }));
 
 export const StyledInfoContainer = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: "8px",
-  color: "white",
-  backgroundColor: "rgba(33, 150, 243, 0.5)",
+  backgroundColor: "rgba(129, 212, 250, 0.7)",
+  color: "black",
   borderRadius: "8px",
   padding: "10px 14px",
   boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+  cursor: "pointer",
+}));
+
+export const StyledHintBox = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "flex-start",
+  backgroundColor: "rgba(200, 230, 201, 0.9)",
+  gap: "8px",
+  borderRadius: "8px",
+  padding: "10px 14px",
+  color: "#2E2E2E",
+  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.08)",
+  border: "1px dashed rgba(165, 214, 167, 0.8)",
+  cursor: "pointer",
 }));
