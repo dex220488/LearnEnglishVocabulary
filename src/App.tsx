@@ -3,6 +3,7 @@ import {
   Checkbox,
   createTheme,
   FormControlLabel,
+  Input,
   styled,
   ThemeProvider,
   Typography,
@@ -76,6 +77,7 @@ const App = () => {
   const [startGame, setStartGame] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<GROUP_ENUM[]>([]);
   const [isAllOption, setIsAllOption] = useState(false);
+  const [wordLimit, setWordLimit] = useState(20);
 
   const handleOptionToggle = (category: GROUP_ENUM) => {
     setSelectedCategories(
@@ -112,6 +114,13 @@ const App = () => {
     setStartGame(false);
   };
 
+  const handleWordLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = Number(event.target.value);
+    if (newValue >= 1) {
+      setWordLimit(newValue);
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <div
@@ -136,7 +145,11 @@ const App = () => {
 
         {startGame ? (
           <StyledContainer>
-            <Game selectedCategories={selectedCategories} onRestart={handleRestart} />
+            <Game
+              selectedCategories={selectedCategories}
+              onRestart={handleRestart}
+              wordLimit={wordLimit}
+            />
           </StyledContainer>
         ) : (
           <StyledContainer>
@@ -162,6 +175,7 @@ const App = () => {
                   }
                 />
               ))}
+
               <FormControlLabel
                 key={"all"}
                 control={<Checkbox checked={isAllOption} onChange={handleCheckAllOptions} />}
@@ -170,6 +184,26 @@ const App = () => {
                     All
                   </Typography>
                 }
+              />
+
+              <FormControlLabel
+                key={"limitWords"}
+                control={
+                  <Input
+                    value={wordLimit}
+                    type='number'
+                    onChange={handleWordLimitChange}
+                    inputProps={{ min: 1 }}
+                    sx={{ marginLeft: 2 }}
+                  />
+                }
+                label={
+                  <Typography variant='body1' component='p'>
+                    Limit Words:
+                  </Typography>
+                }
+                labelPlacement='start'
+                sx={{ marginLeft: 0 }}
               />
             </Box>
 

@@ -10,10 +10,11 @@ import Results from "../Results/Results";
 
 type GameProps = {
   selectedCategories: GROUP_ENUM[];
+  wordLimit: number;
   onRestart: () => void;
 };
 
-const Game: React.FC<GameProps> = ({ selectedCategories, onRestart }) => {
+const Game: React.FC<GameProps> = ({ selectedCategories, wordLimit, onRestart }) => {
   const [answeredWords, setAnsweredWords] = useState<Word[]>([]);
   const [isCorrect, setIsCorrect] = useState<boolean>();
   const [hasAnswered, setHasAnswered] = useState<boolean>(false);
@@ -29,7 +30,7 @@ const Game: React.FC<GameProps> = ({ selectedCategories, onRestart }) => {
   const wordsToPlay = useMemo(() => {
     return wordList
       .filter((item) => item.categories.some((cat) => selectedCategories.includes(cat)))
-      .slice(0, 10);
+      .slice(0, wordLimit);
   }, [wordList]);
 
   const randomList = useMemo(() => {
