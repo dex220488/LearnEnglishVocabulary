@@ -4,9 +4,15 @@ export const MultipleAnswersStyledDiv = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  justifyContent: "center",
   width: "100%",
   gap: "10px",
+  "@media (max-height: 500px)": {
+    maxHeight: "300px",
+    overflowY: "auto",
+    overflowX: "hidden",
+    padding: "10px",
+    boxSizing: "border-box",
+  },
 }));
 
 export const MultipleAnswersContainerStyled = styled("div")(({ theme }) => ({

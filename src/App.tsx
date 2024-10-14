@@ -90,6 +90,13 @@ const OptionsContainer = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("sm")]: {
     width: "50%",
   },
+  "@media (max-height: 500px)": {
+    maxHeight: "300px",
+    overflowY: "auto",
+    overflowX: "hidden",
+    padding: "10px",
+    boxSizing: "border-box",
+  },
 }));
 
 export const StyledButton = styled("button")(({ theme }) => ({
