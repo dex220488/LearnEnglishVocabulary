@@ -25,7 +25,7 @@ export const WordImage: React.FC<ImageProps> = ({ word }) => {
       {showInfo ? (
         <StyledHintBox onClick={() => setShowInfo(!showInfo)}>
           <InfoIcon />
-          <Typography variant='body1' component='body'>
+          <Typography variant='body2' component='body'>
             {meaning}
           </Typography>
         </StyledHintBox>

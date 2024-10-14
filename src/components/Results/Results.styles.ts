@@ -15,10 +15,18 @@ export const ImproveWord = styled("div")({
   padding: "4px",
 });
 
-export const StyledContainer = styled("div")({
+export const StyledContainer = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   width: "100%",
   justifyContent: "center",
   alignItems: "center",
-});
+  gap: "10px",
+  "&:hover": {
+    cursor: "pointer",
+  },
+  [theme.breakpoints.up("sm")]: {
+    flexDirection: "row",
+    gap: "100px",
+  },
+}));

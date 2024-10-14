@@ -7,4 +7,7 @@ export const StyledSwiperSlide = styled(SwiperSlide)(({ theme }) => ({
   justifyContent: "center",
   alignItems: "center",
   width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    flexDirection: "row",
+  },
 }));

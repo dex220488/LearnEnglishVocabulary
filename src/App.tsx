@@ -1,6 +1,5 @@
 import {
-  Box,
-  Checkbox,
+  Alert,
   createTheme,
   FormControlLabel,
   Input,
@@ -8,6 +7,7 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
 import React, { useEffect, useState } from "react";
 import { APP_NAME, GROUP_ENUM } from "./constants";
 import Game from "./components/Game/Game";
@@ -46,10 +46,19 @@ const theme = createTheme({
       lineHeight: 1.4,
     },
     body1: {
-      fontFamily: "'Kanit', sans-serif", // Font for paragraphs
+      fontFamily: "'Kanit', sans-serif",
       fontWeight: 400,
-      fontSize: "1rem",
       lineHeight: 1.5,
+      fontSize: "1rem",
+      "@media (min-width:600px)": {
+        fontSize: "2.5rem",
+      },
+    },
+    body2: {
+      fontFamily: "'Kanit', sans-serif", // Font for h5
+      fontWeight: 400,
+      fontSize: "1.1rem",
+      lineHeight: 1.4,
     },
   },
 });
@@ -62,6 +71,25 @@ const StyledContainer = styled("div")(({ theme }) => ({
   height: "100%",
   width: "100%",
   textAlign: "center",
+  gap: "50px",
+  [theme.breakpoints.up("sm")]: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "200px",
+  },
+}));
+
+const OptionsContainer = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "flex-start",
+  gap: "10px",
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    width: "50%",
+  },
 }));
 
 export const StyledButton = styled("button")(({ theme }) => ({
@@ -71,10 +99,32 @@ export const StyledButton = styled("button")(({ theme }) => ({
   border: "1px solid black",
   borderRadius: "5px",
   padding: "10px",
-  width: "90%",
+  width: "100%",
   backgroundColor: "green",
   color: "white",
   "&:hover": {
+    cursor: "pointer",
+  },
+  [theme.breakpoints.up("sm")]: {
+    width: "300px",
+    height: "300px",
+    borderRadius: "50%",
+  },
+}));
+
+export const StyledOption = styled("button")<{
+  isSelected: boolean; // Declare isSelected inline
+}>(({ isSelected }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: "1px solid black",
+  borderRadius: "5px",
+  padding: "10px",
+  width: "100%",
+  backgroundColor: isSelected ? "lightblue" : "white",
+  "&:hover": {
+    backgroundColor: "lightblue",
     cursor: "pointer",
   },
 }));
@@ -84,6 +134,7 @@ const App = () => {
   const [selectedCategories, setSelectedCategories] = useState<GROUP_ENUM[]>([]);
   const [isAllOption, setIsAllOption] = useState(false);
   const [wordLimit, setWordLimit] = useState("20");
+  const [open, setOpen] = useState(false);
 
   const handleOptionToggle = (category: GROUP_ENUM) => {
     setSelectedCategories(
@@ -108,6 +159,7 @@ const App = () => {
 
   const handleStart = () => {
     if (!selectedCategories.length) {
+      setOpen(true);
       return;
     }
 
@@ -156,7 +208,7 @@ const App = () => {
           variant='h1'
           component='h1'
           style={{
-            display: "flex", // Flex for centering text if needed
+            display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -174,38 +226,24 @@ const App = () => {
           </StyledContainer>
         ) : (
           <StyledContainer>
-            <Box
-              display='flex'
-              flexDirection='column'
-              justifyContent='center'
-              alignItems='flex-start'
-            >
-              {Object.values(GROUP_ENUM).map((item) => (
-                <FormControlLabel
-                  key={item}
-                  control={
-                    <Checkbox
-                      checked={selectedCategories.includes(item)}
-                      onChange={() => handleOptionToggle(item)}
-                    />
-                  }
-                  label={
-                    <Typography variant='body1' component='p'>
-                      {item}
-                    </Typography>
-                  }
-                />
-              ))}
+            <OptionsContainer>
+              <StyledOption key='all' onClick={handleCheckAllOptions} isSelected={isAllOption}>
+                <Typography variant='body1' component='body'>
+                  {"All"}
+                </Typography>
+              </StyledOption>
 
-              <FormControlLabel
-                key={"all"}
-                control={<Checkbox checked={isAllOption} onChange={handleCheckAllOptions} />}
-                label={
-                  <Typography variant='body1' component='p'>
-                    All
+              {Object.values(GROUP_ENUM).map((item) => (
+                <StyledOption
+                  key={item}
+                  onClick={() => handleOptionToggle(item)}
+                  isSelected={selectedCategories.includes(item)}
+                >
+                  <Typography variant='body1' component='body'>
+                    {item}
                   </Typography>
-                }
-              />
+                </StyledOption>
+              ))}
 
               <FormControlLabel
                 key={"limitWords"}
@@ -226,13 +264,25 @@ const App = () => {
                 labelPlacement='start'
                 sx={{ marginLeft: 0 }}
               />
-            </Box>
+            </OptionsContainer>
 
             <StyledButton onClick={handleStart}>
               <Typography variant='h4' component='h4'>
                 Start
               </Typography>
             </StyledButton>
+
+            <Snackbar
+              open={open}
+              autoHideDuration={6000}
+              message=''
+              anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+              onClose={() => setOpen(false)}
+            >
+              <Alert severity='error' variant='filled' sx={{ width: "100%" }}>
+                Select an option from the list
+              </Alert>
+            </Snackbar>
           </StyledContainer>
         )}
       </div>

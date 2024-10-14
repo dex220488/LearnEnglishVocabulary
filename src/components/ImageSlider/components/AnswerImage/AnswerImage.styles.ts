@@ -21,6 +21,12 @@ const tiltAnimation = keyframes`
 const StyledImage = styled("img")(({ theme }) => ({
   width: "300px",
   height: "auto",
+  [theme.breakpoints.up("sm")]: {
+    width: "60%",
+    height: "auto",
+    maxHeight: "400px",
+    objectFit: "contain",
+  },
 }));
 
 export const CongratulationStyledImage = styled(StyledImage)(({ theme }) => ({
@@ -37,4 +43,7 @@ export const StyledImageContainer = styled("div")(({ theme }) => ({
   alignItems: "flex-start",
   width: "100%",
   height: "100dvh",
+  [theme.breakpoints.up("sm")]: {
+    marginTop: "100px",
+  },
 }));

@@ -2,11 +2,7 @@ import { GLOBAL_IMAGE_SRC } from "../../../constants/appConstants";
 import { Confetti, StyledImage, StyledImageContainer } from "./Trophy.styles";
 import React from "react";
 
-type TrophyProps = {
-  onClick: () => void;
-};
-
-const Trophy: React.FC<TrophyProps> = ({ onClick }) => {
+const Trophy: React.FC = () => {
   const confettiPieces = Array.from({ length: 50 }, (_, index) => ({
     key: index,
     color: ["red", "yellow", "blue", "green", "orange"][index % 5], // Different colors
@@ -15,7 +11,7 @@ const Trophy: React.FC<TrophyProps> = ({ onClick }) => {
   }));
 
   return (
-    <StyledImageContainer onClick={onClick}>
+    <StyledImageContainer>
       <StyledImage src={`${GLOBAL_IMAGE_SRC}trophy.webp`} />
       {confettiPieces.map((piece) => (
         <Confetti

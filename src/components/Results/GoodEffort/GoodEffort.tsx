@@ -2,13 +2,9 @@ import { GLOBAL_IMAGE_SRC } from "../../../constants/appConstants";
 import React from "react";
 import { StyledImage, StyledImageContainer } from "./GoodEffort.styles";
 
-type GoodEffortProps = {
-  onClick: () => void;
-};
-
-const GoodEffort: React.FC<GoodEffortProps> = ({ onClick }) => {
+const GoodEffort: React.FC = () => {
   return (
-    <StyledImageContainer onClick={onClick}>
+    <StyledImageContainer>
       <StyledImage src={`${GLOBAL_IMAGE_SRC}good-effort.webp`} />
     </StyledImageContainer>
   );

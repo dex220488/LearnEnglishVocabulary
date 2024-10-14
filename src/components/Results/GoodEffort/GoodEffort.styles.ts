@@ -5,7 +5,6 @@ export const StyledImageContainer = styled("div")({
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  padding: "20px",
   width: "100%",
   cursor: "pointer",
 });

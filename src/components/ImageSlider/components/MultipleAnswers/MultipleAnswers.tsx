@@ -22,7 +22,7 @@ export const MultipleAnswers: React.FC<MultipleAnswersProps> = ({
   correctAnswer,
   onAnswered,
 }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState<string>(""); // Initialize to an empty string
+  const [selectedAnswer, setSelectedAnswer] = useState<string>("");
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [hasAnswered, setHasAnswered] = useState<boolean>(false);
 

@@ -6,6 +6,12 @@ export const StyledImage = styled("img")(({ theme }) => ({
   alignItems: "center",
   width: "200px",
   height: "auto",
+  [theme.breakpoints.up("sm")]: {
+    width: "60%",
+    height: "auto",
+    maxHeight: "400px",
+    objectFit: "contain",
+  },
 }));
 
 export const StyledImageContainer = styled("div")(({ theme }) => ({

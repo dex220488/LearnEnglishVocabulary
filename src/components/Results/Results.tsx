@@ -20,7 +20,7 @@ const Results: React.FC<ResultsProps> = ({ score, durationTime, answers, onResta
   const wordsToImprove = useMemo(() => {
     const words = answers.filter((item) => !item.wasCorrect);
     return words.length > 0 ? (
-      <StyledContainer>
+      <StyledContainer style={{ flexDirection: "column", gap: "8px" }}>
         <Typography variant='h4' component='h4'>
           Words to improve:
         </Typography>
@@ -59,21 +59,21 @@ const Results: React.FC<ResultsProps> = ({ score, durationTime, answers, onResta
   );
 
   return (
-    <StyledContainer>
+    <StyledContainer onClick={onRestart}>
       {percentage < 70 ? (
-        <>
-          <GoodEffort onClick={onRestart} />
+        <div>
+          <GoodEffort />
           <Typography variant='h2' component='h2'>
             {"Good effort!"}
           </Typography>
-        </>
+        </div>
       ) : (
-        <>
-          <Trophy onClick={onRestart} />
+        <div>
+          <Trophy />
           <Typography variant='h2' component='h2'>
             {"Congratulations!"}
           </Typography>
-        </>
+        </div>
       )}
 
       {renderResult}
