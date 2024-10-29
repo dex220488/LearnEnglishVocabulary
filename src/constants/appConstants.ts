@@ -9,8 +9,9 @@ export enum STATUS_ENUM {
 }
 
 export enum GROUP_ENUM {
-  SHORT_VOWEL_A = "Short Vowel A",
-  SHORT_VOWEL_E = "Short Vowel E",
-  SHORT_VOWEL_I = "Short Vowel I",
-  SHORT_VOWEL_O = "Short Vowel O",
+  SHORT_WORD_A = "Short Word A",
+  SHORT_WORD_E = "Short Word E",
+  SHORT_WORD_I = "Short Word I",
+  SHORT_WORD_O = "Short Word O",
+  SHORT_WORD_U = "Short Word U",
 }
